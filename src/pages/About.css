@@ -1,0 +1,175 @@
+.player-page header {
+  margin-bottom: 1.25rem;
+}
+
+.overlabel {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: var(--pink);
+}
+
+.player-page h1 {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-pixel);
+  font-size: clamp(1.1rem, 4vw, 1.6rem);
+  color: var(--lime);
+  text-shadow: 3px 3px 0 #000;
+}
+
+.player-name {
+  margin: 0;
+  font-size: 1.3rem;
+  color: var(--cyan);
+}
+
+.stat-block {
+  background: var(--panel);
+  border: 3px solid var(--cyan);
+  box-shadow: 5px 5px 0 #000;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-block p {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+}
+
+.stat-block p:last-child {
+  margin-bottom: 0;
+}
+
+.player-page h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-pixel);
+  font-size: 0.58rem;
+  color: var(--amber);
+  line-height: 1.45;
+}
+
+.player-page section {
+  margin-bottom: 1.75rem;
+}
+
+.save-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+
+.save-card {
+  background: var(--panel);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  padding: 0.85rem;
+}
+
+.save-card span {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--pink);
+}
+
+.save-card strong {
+  display: block;
+  margin: 0.4rem 0;
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  line-height: 1.45;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.save-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.quest {
+  background: var(--panel);
+  border-left: 4px solid var(--lime);
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.quest-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+}
+
+.quest-top strong {
+  font-family: var(--font-pixel);
+  font-size: 0.52rem;
+  line-height: 1.45;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.quest-top span,
+.place {
+  font-family: var(--font-pixel);
+  font-size: 0.42rem;
+  color: var(--muted);
+}
+
+.place {
+  margin: 0.35rem 0 0.5rem;
+}
+
+.quest ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.quest li + li {
+  margin-top: 0.35rem;
+}
+
+.inventory {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.inventory span {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--bg);
+  background: var(--cyan);
+  border: 2px solid #fff;
+  box-shadow: 2px 2px 0 #000;
+  padding: 0.45rem 0.5rem;
+  line-height: 1.4;
+}
+
+.achievements {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.achievements li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  font-size: 1.15rem;
+}
+
+.achievements span {
+  color: var(--amber);
+}
+
+.continue-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
