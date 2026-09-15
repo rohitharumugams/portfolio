@@ -651,7 +651,7 @@ export const projects: Project[] = [
     status: 'released',
     statusLabel: 'Released',
     when: 'Jul 2026 — Aug 2026',
-    featured: false,
+    featured: true,
     featuredOrder: 7,
     stack: ['Python', 'MLX', 'QLoRA', 'Ollama', 'FastAPI'],
     github: 'https://github.com/rohitharumugams/RepoTriage',

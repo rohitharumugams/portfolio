@@ -44,7 +44,7 @@ export function Home() {
 
       <section className="stage-select">
         <div className="panel-label">FEATURED PROJECTS</div>
-        <div className="stage-grid">
+        <div className="stage-grid home-project-grid">
           {stages.map((project) => (
             <StageCard
               key={project.slug}
