@@ -26,7 +26,7 @@ export function Home() {
         <p className="tagline">{site.tagline}</p>
         <div className="title-actions">
           <Link className="pixel-btn primary cursor-target" to="/work">
-            PRESS START
+            VIEW PROJECTS
           </Link>
           <a
             className="pixel-btn cursor-target"
@@ -34,16 +34,16 @@ export function Home() {
             target="_blank"
             rel="noreferrer"
           >
-            HIGH SCORES (GH)
+            GITHUB
           </a>
         </div>
         <p className="hint">
-          <span className="blink">▶</span> SELECT A STAGE BELOW
+          <span className="blink">▶</span> A FEW THINGS I HAVE BUILT
         </p>
       </section>
 
       <section className="stage-select">
-        <div className="panel-label">STAGE SELECT · FEATURED</div>
+        <div className="panel-label">FEATURED PROJECTS</div>
         <div className="stage-grid">
           {stages.map((project) => (
             <StageCard
@@ -58,11 +58,11 @@ export function Home() {
 
       {preview && meta && (
         <section className="preview-panel">
-          <div className="panel-label">NOW LOADING · STAGE {meta.stage}</div>
+          <div className="panel-label">PROJECT {meta.stage}</div>
           <div className="preview-body">
             <div>
               <h2>{preview.shortTitle}</h2>
-              <p className="preview-boss">BOSS: {meta.boss}</p>
+              <p className="preview-boss">THE CHALLENGE: {meta.boss}</p>
               <p>{meta.oneLiner}</p>
             </div>
             <ul className="mini-scores">
@@ -75,7 +75,7 @@ export function Home() {
             </ul>
           </div>
           <Link className="pixel-btn primary cursor-target" to={`/work/${preview.slug}`}>
-            ENTER STAGE
+            READ MORE
           </Link>
         </section>
       )}

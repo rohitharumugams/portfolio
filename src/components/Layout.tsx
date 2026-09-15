@@ -14,12 +14,10 @@ export function Layout({ children }: { children: ReactNode }) {
       <div className="ticker" aria-hidden="true">
         <div className="ticker-track">
           <span>
-            {site.cabinetTitle} · HIGH SCORES ON EVERY STAGE · NO CONTINUES NEEDED ·{' '}
-            {site.insertCoin} · BUILD · MEASURE · REPEAT ·{' '}
+            {site.marquee} · {site.insertCoin} ·{' '}
           </span>
           <span>
-            {site.cabinetTitle} · HIGH SCORES ON EVERY STAGE · NO CONTINUES NEEDED ·{' '}
-            {site.insertCoin} · BUILD · MEASURE · REPEAT ·{' '}
+            {site.marquee} · {site.insertCoin} ·{' '}
           </span>
         </div>
       </div>
@@ -31,16 +29,16 @@ export function Layout({ children }: { children: ReactNode }) {
         </Link>
         <nav className="menu">
           <NavLink to="/" end className="cursor-target">
-            TITLE
+            HOME
           </NavLink>
           <NavLink to="/work" className="cursor-target">
-            STAGES
+            PROJECTS
           </NavLink>
           <NavLink to="/about" className="cursor-target">
-            PLAYER
+            ABOUT
           </NavLink>
           <a className="cursor-target" href={`mailto:${site.email}`}>
-            CONTINUE?
+            EMAIL
           </a>
         </nav>
       </header>
@@ -48,7 +46,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="screen">{children}</main>
 
       <footer className="hud-foot">
-        <span>© {site.shortName} · 1 CREDIT</span>
+        <span>© {site.name}</span>
         <div className="hud-links">
           <a
             className="cursor-target"

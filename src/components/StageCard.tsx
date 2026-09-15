@@ -32,7 +32,7 @@ export function StageCard({
       onFocus={onFocus}
     >
       <div className="stage-card-top">
-        <span className="stage-num">STAGE {meta?.stage ?? '--'}</span>
+        <span className="stage-num">PROJECT {meta?.stage ?? '--'}</span>
         <span className="stage-diff" title="Difficulty">
           {stars(meta?.difficulty ?? 3)}
         </span>
@@ -41,8 +41,8 @@ export function StageCard({
       <p className="stage-genre">{meta?.genre}</p>
       <p className="stage-line">{meta?.oneLiner}</p>
       <div className="stage-card-foot">
-        <span>START ▸</span>
-        {project.live ? <span className="live-badge">ONLINE</span> : null}
+        <span>READ MORE ▸</span>
+        {project.live ? <span className="live-badge">LIVE</span> : null}
       </div>
     </Link>
   )

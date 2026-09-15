@@ -38,9 +38,9 @@ export const projects: Project[] = [
     title: 'DopplerSim',
     shortTitle: 'DopplerSim',
     tagline:
-      'Physics-based vehicle pass-by audio re-rendering and ML dataset generation.',
+      'A physics-based tool for re-rendering vehicle pass-by audio and generating ML datasets.',
     purpose:
-      'Invert a recorded roadside pass-by, recover intrinsic emitter spectra, and synthesize a new pass-by under different speed, distance, and timing — then batch that pipeline into ML-ready datasets.',
+      'I built DopplerSim to take a roadside recording, estimate the underlying sound of the vehicle, and render it again at a different speed, distance, or trajectory. The same pipeline can generate labelled audio in batches for ML experiments.',
     type: 'Research tool / web app',
     role: 'Sole builder (CMU research internship)',
     status: 'research',
@@ -61,8 +61,8 @@ export const projects: Project[] = [
     live: 'https://dopplersim.site/',
     topics: ['acoustics', 'signal processing', 'dataset generation', 'ML'],
     summary: [
-      'DopplerSim treats a mono pass-by recording as an observation of moving emitters. Given original geometry (speed, CPA distance, time of closest approach), it undoes spreading and Doppler per STFT frame, averages to an intrinsic PSD per emitter, then re-synthesizes under target geometry with retarded-time physics.',
-      'A Batch Generation tab sweeps vehicles and speeds through the same backend to export WAVs, spectrogram arrays, labels, and metadata for training.',
+      'The idea came from a practical problem in our research: we had far fewer real roadside recordings than the combinations of vehicles, speeds, and microphone positions we wanted to study.',
+      'Given the original geometry, the simulator works backward from a mono recording to estimate an intrinsic spectrum, then uses retarded-time Doppler physics to synthesize a new pass-by. I later added batch generation so I could export WAVs, spectrograms, labels, and metadata for training.',
     ],
     results: [
       {
@@ -87,7 +87,7 @@ export const projects: Project[] = [
       },
     ],
     problem:
-      'Real roadside audio is scarce for every combination of vehicle, speed, and microphone geometry. Collecting that variety in the field is expensive; naive pitch-shifting does not respect retarded-time Doppler or range-dependent envelopes.',
+      'Collecting a balanced roadside-audio dataset is slow and expensive, and simple pitch shifting does not reproduce how Doppler shift and loudness change over a real pass-by. I wanted synthetic data that was useful enough to test on downstream models, not just audio that sounded plausible.',
     decisions: [
       'Shared one physics backend (`render_pass_by`) for single-clip and batch modes so dataset exports match the interactive simulator.',
       'Sidecar `.txt` files override filename speed and supply source t_CPA so catalogued clips stay reproducible.',
@@ -131,7 +131,7 @@ export const projects: Project[] = [
     outcomes: [
       'Simulator quality validated on held-out recordings with envelope and spectral metrics.',
       'Downstream models for speed, length, and multi-vehicle counting improved when trained with mixed real + synthetic clips.',
-      'Public web UI makes the research artifact inspectable without reading the physics code first.',
+      'The public web app lets people try the simulator without setting up the research code.',
     ],
     limits: [
       'Best suited to subsonic pass-bys with approximately known geometry; supersonic cases are not modeled correctly.',
@@ -157,9 +157,9 @@ export const projects: Project[] = [
     title: 'ADOS — Adaptive Distributed Object Store',
     shortTitle: 'ADOS',
     tagline:
-      'Object store that adapts replication and erasure coding to hot/cold access instead of a fixed RF.',
+      'An object store that adapts replication and erasure coding to how data is actually accessed.',
     purpose:
-      'Store objects with chunked PUT/GET, rack-aware placement, repair/scrub, and an adaptive policy that gives hot objects more replicas (and optional gateway cache) while cold/large objects move to Reed–Solomon.',
+      'I built ADOS to explore a simple question: why protect every object in exactly the same way? It keeps frequently read objects replicated, moves cold or large objects to Reed–Solomon coding, and includes rack-aware placement, repair, scrub, and migration.',
     type: 'Distributed systems',
     role: 'Sole builder',
     status: 'released',
@@ -171,8 +171,8 @@ export const projects: Project[] = [
     github: 'https://github.com/rohitharumugams/ADOS',
     topics: ['storage', 'replication', 'erasure coding', 'placement', 'bench'],
     summary: [
-      'Most object stores pick a fixed replication factor. ADOS classifies objects from recent access stats (hot / very-hot / cold-large / default), migrates encoding when policy changes, and keeps replicas on different racks.',
-      'A bench suite exercises Zipf/uniform/skewed/bursty loads, rack kill, repair-under-load, scrub, decommission, and concurrency — not only PUT/GET microbenchmarks.',
+      'This started as an attempt to understand object placement and failure recovery by building them myself. The adaptive policy grew out of noticing how much space fixed triple replication spends on data that is rarely read.',
+      'I wrote a benchmark suite alongside the store because the interesting questions were not just PUT and GET speed. I wanted to see what happened during a rack loss, while repair was running, after corruption, and when workloads changed shape.',
     ],
     results: [
       {
@@ -197,12 +197,12 @@ export const projects: Project[] = [
       },
     ],
     problem:
-      'Fixed triple replication wastes disk on cold data; packing replicas into one failure domain loses data when a rack dies. Healing and policy need to be measurable under load, not only in happy-path PUTs.',
+      'Fixed replication is easy to reason about but can waste a lot of storage, while careless placement can lose every copy in one rack failure. I wanted to measure the trade-off between space, access patterns, and recovery instead of treating durability as a configuration constant.',
     decisions: [
-      'Python on purpose — ship placement, healing, and adaptive coding experiments faster than a C++ rewrite, accepting a single-process gateway bottleneck under high concurrency.',
+      'I stayed with Python so I could iterate quickly on placement, healing, and coding policies. The trade-off is a single-process gateway that becomes the bottleneck under heavier concurrency.',
       'Metadata commits after durable chunk writes; overwrites bump versions (readers may briefly see the previous version).',
-      'Deliberate “naive same-rack” mode exists only for ablation honesty.',
-      'Adaptive thresholds live in config; the predictive nudge only raises RF when GET rate is climbing fast — not an ML model.',
+      'I kept a deliberately naive same-rack mode as a baseline for the placement experiments.',
+      'The adaptive thresholds live in configuration. A small trend rule can raise replication when GET traffic climbs quickly, but it is not an ML model.',
     ],
     implementation: {
       architecture: [
@@ -235,8 +235,8 @@ export const projects: Project[] = [
       ],
     },
     outcomes: [
-      'Rack-aware placement ablation makes failure-domain cost concrete.',
-      'Adaptive coding shows measurable storage savings under skew without inventing a research ML policy.',
+      'The rack-failure experiment showed exactly why failure domains matter: rack-aware placement lost no objects while the naive baseline lost about 40%.',
+      'The adaptive policy reduced storage use under skewed workloads without adding a complex prediction model.',
       'Repair/scrub paths are exercised under load with client-error reporting.',
     ],
     limits: [
@@ -262,9 +262,9 @@ export const projects: Project[] = [
     title: 'PlainQL / MiniDB',
     shortTitle: 'PlainQL',
     tagline:
-      'C++20 database engine from scratch — pages, buffer pool, B+ tree, SQL, WAL, locks.',
+      'A small C++ database engine I wrote from disk pages up to SQL.',
     purpose:
-      'Implement a readable teaching/production-shaped engine on raw `pread`/`pwrite`: slotted pages, LRU buffer pool, catalog, B+ tree indexes, planner/optimizer, volcano executors, WAL recovery, and table-level strict 2PL.',
+      'I wanted to understand what sits beneath a SQL query, so I built the path myself: slotted pages, a buffer pool, catalog, B+ tree indexes, planner and executors, write-ahead logging, recovery, and table-level locking.',
     type: 'Database systems',
     role: 'Sole builder',
     status: 'released',
@@ -276,8 +276,8 @@ export const projects: Project[] = [
     github: 'https://github.com/rohitharumugams/PlainQL',
     topics: ['database', 'storage', 'indexing', 'transactions', 'SQL'],
     summary: [
-      'No SQLite or Rocks underneath — storage and transactions are owned end to end. The lexer also accepts plain-English aliases (MAKE, ADD TO, GET, …) mapped onto the same SQL tokens.',
-      'Schema/SQL coverage is deliberately small so the storage and txn guts stay inspectable: INT/BIGINT indexes, inner equi-joins, BEGIN/COMMIT/ROLLBACK, EXPLAIN.',
+      'PlainQL began as a storage-engine exercise and kept growing until I could type a query, inspect its plan, commit a transaction, crash the process, and recover the right rows.',
+      'The SQL surface is intentionally small. I would rather keep the storage and transaction code readable than hide an incomplete engine behind a large parser. As a small experiment, the lexer also accepts aliases such as MAKE, ADD TO, and GET.',
     ],
     results: [
       {
@@ -294,7 +294,7 @@ export const projects: Project[] = [
       },
     ],
     problem:
-      'Using an embedded library hides the interesting parts of a database. The goal was a complete, readable path from bytes on disk to EXPLAIN plans and crash recovery.',
+      'I had used databases for years without having a concrete picture of how a row becomes bytes on disk or how an index, lock, and log interact. This project was my way of closing that gap by owning the whole path.',
     decisions: [
       '4 KB slotted pages; catalog on page 0 with magic MDB1.',
       'Volcano pull executors; hash join for equality; predicate pushdown + index selection in the optimizer.',
@@ -330,9 +330,9 @@ export const projects: Project[] = [
       ],
     },
     outcomes: [
-      'End-to-end engine demonstrates storage, indexing, planning, and recovery without outsourcing the hard parts.',
-      'Bench curve makes the index win obvious across growing N.',
-      'Concurrency model is explicit (table locks, wait-die) rather than accidental.',
+      'The finished engine connects storage, indexing, planning, transactions, and recovery in one codebase I can explain end to end.',
+      'The benchmark shows how the point-lookup gap between a scan and an index grows with the table.',
+      'Concurrency uses a documented table-locking and wait-die policy instead of relying on incidental thread behavior.',
     ],
     limits: [
       'No UPDATE/DELETE, NULLs, outer joins, subqueries, or multi-column indexes.',
@@ -354,9 +354,9 @@ export const projects: Project[] = [
     title: 'StreamSpace — Adaptive Video Streaming',
     shortTitle: 'StreamSpace',
     tagline:
-      'Local HLS player with trace-driven throttle, ABR controllers, and spatial captions.',
+      'A local HLS testbed for adaptive bitrate control and spatial captions.',
     purpose:
-      'Package multi-bitrate HLS, serve it through a bandwidth-throttled FastAPI server, run custom ABR (including risk-aware), and place speaker/direction-aware captions via stereo + vision fusion.',
+      'I built StreamSpace to experiment with video streaming without needing a production CDN. It packages multi-bitrate HLS, replays bandwidth traces, runs custom ABR controllers, and uses stereo audio plus face detection to place captions near the speaker.',
     type: 'Streaming systems + accessibility',
     role: 'Sole builder',
     status: 'released',
@@ -368,8 +368,8 @@ export const projects: Project[] = [
     github: 'https://github.com/rohitharumugams/StreamSpace',
     topics: ['ABR', 'HLS', 'captions', 'accessibility', 'evaluation'],
     summary: [
-      'Started as an ABR systems project: FFmpeg ladder, hls.js player with manual level control, server-side Mbps traces, and a Python offline simulator that mirrors the browser controllers.',
-      'Captions came second: stereo L/R energy, YuNet faces, AV fusion, placement that avoids faces, plus an A/B study UI.',
+      'The first version focused only on adaptive streaming: an FFmpeg bitrate ladder, an hls.js player, a throttled server, and a Python simulator that mirrors the browser controllers.',
+      'I added spatial captions after thinking about information that ordinary subtitles leave out. The caption pipeline combines left/right audio energy with detected faces, avoids covering faces, and includes a small A/B study interface.',
     ],
     results: [
       {
@@ -387,7 +387,7 @@ export const projects: Project[] = [
       },
     ],
     problem:
-      'Default ABR can overshoot on volatile networks. Separately, standard captions ignore where speech comes from — useful signal for hard-of-hearing viewers when stereo and faces agree.',
+      'Throughput-chasing ABR can make poor choices when bandwidth changes quickly. I also wanted to see whether captions could communicate who is speaking and from which direction without pretending that weak stereo evidence is reliable.',
     decisions: [
       'Throttle media segments only; leave playlists unthrottled so `.m3u8` fetches do not false-stall the player.',
       'Implement ABR twice (JS + Python) so offline experiments match live decisions.',
@@ -423,7 +423,7 @@ export const projects: Project[] = [
     },
     outcomes: [
       'Risk-aware controller sits lower than pure throughput under volatile/spike traces while protecting buffer.',
-      'Caption stack is honest about demo vs real video — scripted dialogue_demo is a pipeline check, not a movie claim.',
+      'The scripted dialogue demo verifies the caption pipeline; I keep its results separate from the tests on less controlled clips.',
       'End-to-end local service is demoable in a browser without a CDN.',
     ],
     limits: [
@@ -448,9 +448,9 @@ export const projects: Project[] = [
     title: 'TELP — TCP Event Log Processor',
     shortTitle: 'TELP',
     tagline:
-      'Broker + windowed worker: purchases in, region revenue out, Parquet lake + DuckDB.',
+      'A small event-streaming stack with a broker, windows, checkpoints, and a queryable data lake.',
     purpose:
-      'Build a Kafka-shaped learning stack on asyncio: append-only partitioned log, consumer groups, event-time windows, checkpoints, SQLite recent windows, Parquet lake, DuckDB reports, dashboard and Prometheus metrics.',
+      'I built TELP as a manageable way to learn the moving parts of event streaming: an append-only partitioned log, consumer groups, event-time windows, checkpoints, recent results in SQLite, historical data in Parquet, and reports through DuckDB.',
     type: 'Streaming / data systems',
     role: 'Sole builder',
     status: 'released',
@@ -462,8 +462,8 @@ export const projects: Project[] = [
     github: 'https://github.com/rohitharumugams/TELP',
     topics: ['event log', 'windowing', 'checkpoints', 'lakehouse-lite'],
     summary: [
-      'Single-request JSON protocol over TCP — not Kafka wire format — but the operator story is familiar: produce, consume in a group, window, checkpoint, query.',
-      'Bench suite (experiments A–H+) measures publish throughput, lag drain, failover redirect, late events, checkpoint cost, and end-to-end lake counts.',
+      'TELP is not trying to be Kafka. It uses a small JSON-over-TCP protocol so the log, group coordination, windowing, and recovery code stays easy to inspect and change.',
+      'I used purchase events as the running example and added experiments for publish throughput, backlog drain, failover, late events, checkpoint cost, and end-to-end counts in the lake.',
     ],
     results: [
       {
@@ -488,7 +488,7 @@ export const projects: Project[] = [
       },
     ],
     problem:
-      'Need a controllable playground for windowing, late data, checkpoints, and failover without operating a full Kafka cluster for every experiment (optional Kafka comparison exists as experiment H).',
+      'I wanted a place where I could deliberately delay events, kill a leader, inspect offsets, and change checkpoint logic without the operational weight or hidden internals of a full Kafka setup.',
     decisions: [
       'At-least-once delivery; duplicate event_ids skipped.',
       'SQLite commits window rows + checkpoint blob together, then broker offsets — not Kafka transactions.',
@@ -520,9 +520,9 @@ export const projects: Project[] = [
       ],
     },
     outcomes: [
-      'Checkpoint/crash story is measurable: restored totals match clean runs in reported trials.',
-      'Late-event policy updates open windows without pretending dropped-late data still counts.',
-      'Bench markdown makes laptop numbers reproducible for portfolio review.',
+      'In the crash tests, restored revenue totals matched the clean runs across the reported trials.',
+      'The late-event policy updates windows that are still open and clearly reports events that arrive too late.',
+      'The benchmark scripts and generated reports make the laptop results repeatable.',
     ],
     limits: [
       'Not Kafka protocol compatible; experiment H needs a local Kafka or skips.',
@@ -543,9 +543,9 @@ export const projects: Project[] = [
     title: 'BotsBox — Multi-tenant RAG + Actions',
     shortTitle: 'BotsBox',
     tagline:
-      'Chat API that answers from company docs and takes real actions — orders, bookings, tickets.',
+      'A multi-tenant assistant that answers from company documents and completes business tasks.',
     purpose:
-      'Multi-tenant chatbot backend with hybrid RAG, specialist tool-calling agents, durable ops store, and a Scooply ice-cream demo storefront + admin.',
+      'I built BotsBox to move beyond a document chatbot. It combines hybrid retrieval with small specialist agents that can place orders, make bookings, create support tickets, and persist those actions for each tenant.',
     type: 'Applied LLM / backend',
     role: 'Sole builder',
     status: 'released',
@@ -565,8 +565,8 @@ export const projects: Project[] = [
     github: 'https://github.com/rohitharumugams/BotsBox',
     topics: ['RAG', 'agents', 'tools', 'multi-tenant', 'eval'],
     summary: [
-      'Started as document Q&A; grew into domain specialists (docs, concierge, menu, booking, orders, loyalty, support) because FAQ search alone could not place orders or book appointments.',
-      'Scooply under `demo/` is one tenant (`icecream_shop`) with a marketing site, chat dock, order builder UI, and admin snapshot.',
+      'The project started as document Q&A. Once I added actions, one agent with every tool became unreliable, so I split the work among focused specialists for documents, menus, bookings, orders, loyalty, and support.',
+      'To make the backend tangible, I built Scooply, a fictional ice-cream shop with a storefront, chat dock, order builder, and admin view. It is one example tenant rather than a separate hard-coded app.',
     ],
     results: [
       {
@@ -583,7 +583,7 @@ export const projects: Project[] = [
       },
     ],
     problem:
-      'One mega-agent with 30+ tools called the wrong tools. Pure RAG could not mutate business state. Demos needed interactive order UI without inventing forms in prose.',
+      'A useful business assistant needs to do more than quote documents, but giving one model dozens of tools made tool selection worse. I wanted a design that kept retrieval, actions, and tenant data separate and made side effects visible.',
     decisions: [
       'Split specialists by domain; heuristic router by default to save LLM quota (optional LLM router with fallback).',
       'Structured CLIENT_PROFILES for menu/hours/slots; Chroma only for uploaded docs.',
@@ -626,7 +626,7 @@ export const projects: Project[] = [
     ],
     limits: [
       'Without API key the API is open — local-demo grade, not public-internet grade.',
-      'Payments default to mock; Stripe wiring is demo-grade.',
+      'Payments are mocked by default, and the Stripe integration is only suitable for a local demo.',
       'Profiles are still code constants rather than external config.',
     ],
     artifacts: [
@@ -643,9 +643,9 @@ export const projects: Project[] = [
     title: 'RepoTriage — LoRA Issue Triage',
     shortTitle: 'RepoTriage',
     tagline:
-      'Fine-tune a small LLM to map GitHub issues into structured category, severity, and summary JSON.',
+      'A small-model fine-tuning experiment for structured GitHub issue triage.',
     purpose:
-      'Beat zero-shot / few-shot prompting of the same 3B base on a reviewed gold test set using QLoRA on Apple MLX, with honest failure analysis and a local compare UI.',
+      'I fine-tuned a 3B model on my Mac to classify GitHub issues by category and severity and produce a short JSON summary. The goal was to compare it fairly with the same base model under zero-shot and few-shot prompting.',
     type: 'ML systems / fine-tuning',
     role: 'Sole builder',
     status: 'released',
@@ -657,8 +657,8 @@ export const projects: Project[] = [
     github: 'https://github.com/rohitharumugams/RepoTriage',
     topics: ['LoRA', 'evaluation', 'structured generation', 'Apple Silicon'],
     summary: [
-      'Pipeline: fetch public issues → clean → silver-label → gold sample → format → train → eval → judge → fuse → serve.',
-      'Folder on disk is `FineTuning/`; public repo name is RepoTriage.',
+      'I built the full pipeline around the training run: fetch and clean public issues, create labels, review a gold sample, format the data, train adapters, evaluate failures, fuse the model, and serve a local comparison UI.',
+      'The most useful result was not simply that rank 8 improved a little over the base model. A larger rank 16 adapter failed to produce valid JSON on more than half the test set, which changed how I evaluated the model and chose the final checkpoint.',
     ],
     results: [
       {
@@ -679,7 +679,7 @@ export const projects: Project[] = [
       },
     ],
     problem:
-      'Unstructured issue text is slow to route. Prompting a tiny local model is brittle on severity and JSON; cloud fine-tunes were not the first option on an M4 laptop.',
+      'Small local models are attractive for private, inexpensive triage, but they are brittle at severity judgement and structured output. I wanted to find out whether a modest local fine-tune could improve both without hiding failures behind a single aggregate score.',
     decisions: [
       'MLX instead of Unsloth on Apple Silicon; safe trainer skips NaN checkpoints and stops after consecutive NaNs.',
       'Primary metrics: category/severity accuracy and parse fail — not ROUGE alone.',
@@ -713,8 +713,8 @@ export const projects: Project[] = [
     },
     outcomes: [
       'r=8 beats zero-shot on category (+2.0pp) and severity (+1.0pp) with faster latency and perfect parse rate on gold.',
-      'Negative result on r=16 is portfolio-useful: capacity ≠ better structured output.',
-      'Failure reports make severity confusion the clear next rubric/data problem.',
+      'The failed rank-16 run was useful: a larger adapter did not mean more reliable structured output.',
+      'The failure reports showed that severity labels and their rubric are the next part I need to improve.',
     ],
     limits: [
       'Severity remains the hard head; class balance and rubric need work.',

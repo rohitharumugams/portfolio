@@ -8,11 +8,12 @@ export function Work() {
   return (
     <div className="stages-page">
       <header className="stages-intro">
-        <p className="overlabel">WORLD MAP</p>
-        <h1>SELECT STAGE</h1>
+        <p className="overlabel">SELECTED WORK</p>
+        <h1>PROJECTS</h1>
         <p>
-          Seven builds. Pick one, read the briefing, check the high scores.
-          This is not a PDF in a trench coat.
+          These are projects I built to learn a system by implementing it. Each
+          write-up covers the decisions I made, the results I measured, and the
+          parts I would improve next.
         </p>
       </header>
       <div className="stage-grid">

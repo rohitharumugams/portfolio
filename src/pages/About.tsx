@@ -6,8 +6,8 @@ export function About() {
   return (
     <div className="player-page">
       <header>
-        <p className="overlabel">CHARACTER SHEET</p>
-        <h1>{site.playerTag}</h1>
+        <p className="overlabel">ABOUT ME</p>
+        <h1>HELLO</h1>
         <p className="player-name">{site.name}</p>
       </header>
 
@@ -18,7 +18,7 @@ export function About() {
       </section>
 
       <section>
-        <h2>SAVE POINTS · EDUCATION</h2>
+        <h2>EDUCATION</h2>
         <div className="save-grid">
           {site.education.map((ed) => (
             <div key={ed.school} className="save-card">
@@ -35,7 +35,7 @@ export function About() {
       </section>
 
       <section>
-        <h2>SIDE QUESTS · EXPERIENCE</h2>
+        <h2>EXPERIENCE</h2>
         {experience.map((job) => (
           <div key={job.id} className="quest">
             <div className="quest-top">
@@ -55,7 +55,7 @@ export function About() {
       </section>
 
       <section>
-        <h2>INVENTORY · LOADOUT</h2>
+        <h2>TOOLS I USE</h2>
         <div className="inventory">
           {site.loadout.map((item) => (
             <span key={item}>{item}</span>
@@ -64,7 +64,7 @@ export function About() {
       </section>
 
       <section>
-        <h2>ACHIEVEMENTS UNLOCKED</h2>
+        <h2>A FEW MILESTONES</h2>
         <ul className="achievements">
           {site.unlocks.map((u) => (
             <li key={u.slice(0, 30)}>
@@ -75,7 +75,7 @@ export function About() {
       </section>
 
       <section>
-        <h2>CONTINUE?</h2>
+        <h2>GET IN TOUCH</h2>
         <p>
           <a className="cursor-target" href={`mailto:${site.email}`}>
             {site.email}
@@ -99,7 +99,7 @@ export function About() {
             LINKEDIN
           </a>
           <a className="pixel-btn primary cursor-target" href={`mailto:${site.email}`}>
-            SEND PING
+            EMAIL ME
           </a>
         </div>
       </section>

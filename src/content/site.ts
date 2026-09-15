@@ -1,10 +1,12 @@
 export const site = {
   name: 'Rohith Arumugam Suresh',
   shortName: 'ROHITH',
-  playerTag: 'PLAYER 1',
-  cabinetTitle: 'SYSTEMS QUEST',
-  tagline: 'Clear the stage. Measure the score. Ship the build.',
-  insertCoin: 'CMU MCDS · Pittsburgh · Insert curiosity',
+  playerTag: 'PORTFOLIO',
+  cabinetTitle: 'ROHITH BUILDS',
+  tagline: 'I like building systems from the ground up and finding out where they break.',
+  insertCoin: 'CMU MCDS · Pittsburgh, PA',
+  marquee:
+    'I work on distributed systems, databases, streaming, and applied machine learning.',
   email: 'rohithas@andrew.cmu.edu',
   phone: '(412) 807-0975',
   location: 'Pittsburgh, PA',
@@ -39,7 +41,7 @@ export const site = {
     'LoRA',
     'OpenCV',
     'DuckDB',
-    'Redis vibes (DIY logs)',
+    'Git',
   ],
   unlocks: [
     'Amazon Summer School 2025 — top 5% of 60k+',
@@ -47,8 +49,8 @@ export const site = {
     'SSN Coding Club ML Deputy Lead — team of 6',
   ],
   bio: [
-    'Not a highlight reel of course titles — a cabinet of things that run.',
-    'Distributed stores, homemade databases, event logs, adaptive video, RAG agents that actually place orders, and a Doppler physics sim for roadside audio.',
-    'If it does not have a scoreboard or a failure mode, it is still cooking.',
+    "I'm Rohith, a graduate student at Carnegie Mellon who enjoys building systems end to end.",
+    'Most of my work starts with a question I want to understand properly: how an object store should react to changing access patterns, what a database needs beneath SQL, or whether synthetic roadside audio can improve a real model.',
+    'I care about measurements, failure cases, and being clear about what a project can and cannot do.',
   ],
 } as const
