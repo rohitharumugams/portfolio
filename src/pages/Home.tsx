@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { site } from '../content/site'
 import { featuredProjects } from '../content/projects'
@@ -7,16 +6,14 @@ import { StageCard } from '../components/StageCard'
 import './Home.css'
 
 export function Home() {
-  const stages = featuredProjects()
-  const [active, setActive] = useState(stages[0]?.slug ?? '')
-  const preview = stages.find((s) => s.slug === active) ?? stages[0]
-  const meta = preview ? arcadeMeta[preview.slug] : undefined
+  const projects = featuredProjects()
+  const featured = projects.find((project) => project.slug === 'dopplersim')
+  const remaining = projects.filter((project) => project.slug !== 'dopplersim')
 
   return (
     <div className="title-screen">
       <section className="title-hero">
         <p className="coin">{site.insertCoin}</p>
-        <p className="cabinet-label">{site.cabinetTitle}</p>
         <h1>
           {site.shortName}
           <span className="cursor" aria-hidden="true">
@@ -42,31 +39,19 @@ export function Home() {
         </p>
       </section>
 
-      <section className="stage-select">
-        <div className="panel-label">FEATURED PROJECTS</div>
-        <div className="stage-grid home-project-grid">
-          {stages.map((project) => (
-            <StageCard
-              key={project.slug}
-              project={project}
-              selected={project.slug === active}
-              onFocus={() => setActive(project.slug)}
-            />
-          ))}
-        </div>
-      </section>
-
-      {preview && meta && (
+      {featured && (
         <section className="preview-panel">
-          <div className="panel-label">PROJECT {meta.stage}</div>
+          <div className="panel-label">FEATURED PROJECT</div>
           <div className="preview-body">
             <div>
-              <h2>{preview.shortTitle}</h2>
-              <p className="preview-boss">THE CHALLENGE: {meta.boss}</p>
-              <p>{meta.oneLiner}</p>
+              <h2>{featured.shortTitle}</h2>
+              <p className="preview-boss">
+                THE CHALLENGE: {arcadeMeta[featured.slug]?.boss}
+              </p>
+              <p>{arcadeMeta[featured.slug]?.oneLiner}</p>
             </div>
             <ul className="mini-scores">
-              {preview.results.slice(0, 3).map((r) => (
+              {featured.results.slice(0, 3).map((r) => (
                 <li key={r.label}>
                   <span>{r.label}</span>
                   <strong>{r.value}</strong>
@@ -74,11 +59,20 @@ export function Home() {
               ))}
             </ul>
           </div>
-          <Link className="pixel-btn primary cursor-target" to={`/work/${preview.slug}`}>
+          <Link className="pixel-btn primary cursor-target" to={`/work/${featured.slug}`}>
             READ MORE
           </Link>
         </section>
       )}
+
+      <section className="stage-select">
+        <div className="panel-label">MORE PROJECTS</div>
+        <div className="stage-grid home-project-grid">
+          {remaining.map((project) => (
+            <StageCard key={project.slug} project={project} />
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

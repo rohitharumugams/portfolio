@@ -13,7 +13,7 @@ export const arcadeMeta: Record<
   dopplersim: {
     stage: '01',
     genre: 'ACOUSTICS · SIGNAL PROCESSING · ML',
-    oneLiner: 'I built a physics-based simulator to turn limited roadside recordings into useful training data.',
+    oneLiner: 'At CMU, I built a physics-based simulator to turn limited roadside recordings into useful training data.',
     boss: 'Recovering a source signal from a moving vehicle recording',
     difficulty: 4,
     color: 'cyan',

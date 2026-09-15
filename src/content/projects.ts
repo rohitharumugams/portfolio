@@ -40,7 +40,7 @@ export const projects: Project[] = [
     tagline:
       'A physics-based tool for re-rendering vehicle pass-by audio and generating ML datasets.',
     purpose:
-      'I built DopplerSim to take a roadside recording, estimate the underlying sound of the vehicle, and render it again at a different speed, distance, or trajectory. The same pipeline can generate labelled audio in batches for ML experiments.',
+      'I built DopplerSim during my research internship at CMU to take a roadside recording, estimate the underlying sound of the vehicle, and render it again at a different speed, distance, or trajectory. The same pipeline can generate labelled audio in batches for ML experiments.',
     type: 'Research tool / web app',
     role: 'Sole builder (CMU research internship)',
     status: 'research',

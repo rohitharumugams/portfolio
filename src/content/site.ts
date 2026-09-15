@@ -2,11 +2,10 @@ export const site = {
   name: 'Rohith Arumugam Suresh',
   shortName: 'ROHITH',
   playerTag: 'PORTFOLIO',
-  cabinetTitle: 'ROHITH BUILDS',
   tagline: 'I like building systems from the ground up and finding out where they break.',
   insertCoin: 'CMU MCDS · Pittsburgh, PA',
   marquee:
-    'I work on distributed systems, databases, streaming, and applied machine learning.',
+    "Hi! I'm Rohith. I work on applied ML, data systems, and distributed systems.",
   email: 'rohithas@andrew.cmu.edu',
   phone: '(412) 807-0975',
   location: 'Pittsburgh, PA',
